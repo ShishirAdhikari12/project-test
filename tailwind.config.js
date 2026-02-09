@@ -14,7 +14,18 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                brand: '#2563eb',
+                heading: '#111827',
+                body: '#6b7280',
+                'neutral-secondary-soft': '#f3f4f6',
+                'fg-disabled': '#9ca3af',
+            },
+            borderRadius: {
+                base: '8px',
+            }
         },
+
     },
 
     plugins: [forms],
