@@ -30,9 +30,6 @@ class DatabaseSeeder extends Seeder
             'Lifestyle',
             'Education',
             'Entertainment',
-            'Business',
-            'Sports',
-            'Science',
         ];
 
         foreach ($categories as $category){
