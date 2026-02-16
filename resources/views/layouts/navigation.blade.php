@@ -13,6 +13,12 @@
                 
             </div>
 
+            <div class="flex">
+                <a href="{{ route('post.create') }}" class="flex items-center">
+                <x-primary-button>
+                    Create Post
+                </x-primary-button>
+            </a>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
@@ -55,6 +61,7 @@
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
+            </div>
             </div>
         </div>
     </div>
