@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post.create');
+        $categories = Category::get();
+        return view('post.create', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -32,7 +36,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request->validate([
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'svg|max:4096'],
+            'title' => 'required',
+            'content' => 'required',
+            'category_id' => ['required', 'exists:categories,id'],
+        ]);
     }
 
     /**
