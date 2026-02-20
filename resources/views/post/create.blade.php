@@ -7,9 +7,9 @@
 
                     <!-- Image -->
                     <x-input-label for="image" :value="__('Image')" />
-                    <input
+                    <x-text-input
                         class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body file:mr-4 file:py-2 file:px-4 file:rounded-l file:border-0 file:text-sm file:font-medium file:bg-black file:text-white hover:file:bg-gray-800"
-                        id="image" type="file" name="image" :value="old('image')" />
+                        id="image" type="file" name="image" />
                     <x-input-error :messages="$errors->get('image')" class="mt-2" />
 
                     <!-- Title -->
@@ -23,11 +23,12 @@
                     <!-- Category -->
                     <div class="mt-4">
                         <x-input-label for="category_id" :value="__('Category')" />
-                        <select name="category_id[]" id="category_id"
+                        <select name="category_id" id="category_id"
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-brand text-sm text-gray-700 bg-white">
                             <option value="">Select a Category</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}
+                                </option>
                             @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
@@ -36,8 +37,8 @@
                     <!-- Content -->
                     <div class="mt-4">
                         <x-input-label for="content" :value="__('Content')" />
-                        <x-text-area-input id="content" class="block mt-1 w-full" name="content" :value="old('content')">
-                        </x-text-area-input>
+                        <x-text-area-input id="content" class="block mt-1 w-full" rows="6" name="content"
+                            :value="old('content')">{{ old('content') }}</x-text-area-input>
                         <x-input-error :messages="$errors->get('content')" class="mt-2" />
                     </div>
 
