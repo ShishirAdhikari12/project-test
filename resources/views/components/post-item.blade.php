@@ -19,7 +19,7 @@
         </div>
 
         <a href="">
-            <img class="rounded-r-lg w-48 h-full max-h-52 object-cover" src="{{ Storage::url($post->image) }}"
+            <img class="rounded-r-lg w-48 h-full max-h-56 object-cover" src="{{ Storage::url($post->image) }}"
                 alt="post image" />
         </a>
     </div>
