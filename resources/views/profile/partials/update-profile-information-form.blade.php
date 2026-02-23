@@ -19,8 +19,13 @@
 
         @if ($user->image)
             <div class="flex justify-center">
-                <img src="{{ Storage::url($user->image) }}" alt="{{ $user->name }}" class="w-36 h-36 object-cover rounded-full">
+                <img src="{{ $user->imageUrl() }}" alt="{{ $user->name }}"
+                    class="w-36 h-36 object-cover rounded-full">
                 {{-- <img src="{{ Storage::url($user->image) }}" alt="avatar" class="w-36 h-36 object-cover rounded-full"> --}}
+            </div>
+        @else
+            <div class="flex justify-center">
+                <img src="/user-avatar.png" alt="avatar" class="w-36 h-36 object-cover rounded-full">
             </div>
         @endif
 

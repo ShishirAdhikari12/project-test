@@ -5,7 +5,11 @@
                 <h5 class="mt-3 mb-2 text-2xl font-semibold tracking-tight text-heading">{{ $post->title }}</h5>
             </a>
             <div class="mb-2 text-body">{{ Str::words($post->content, 20) }}</div>
-            <a href="#">
+            <a href="{{ route('post.show', [
+                'username'=>$post->user->username, 
+                'post'=>$post->slug
+            ]) }}">
+            
                 <x-primary-button>
                     Read more
                     <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5" aria-hidden="true"
