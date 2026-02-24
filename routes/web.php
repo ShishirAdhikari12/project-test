@@ -2,18 +2,18 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+Route::get('/', [PostController::class,'index'])->name('dashboard');
+Route::get('/@{username}/{post:slug}', [PostController::class, 'show'])->name('post.show');
 
+Route::get('/@{user:username}', [PublicProfileController::class, "show"])->name('profile.show');
 
 Route::middleware('auth', 'verified')->group(function() {
-    Route::get('/', [PostController::class, 'index'])->name('dashboard');
+    // Route::get('/', [PostController::class, 'index'])->name('dashboard');
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
     Route::post('/post', [PostController::class, 'store'])->name('post.store');
-    Route::get('/@{username}/{post:slug}', [PostController::class, 'show'])->name('post.show');
 });
 
 Route::middleware('auth')->group(function () {
