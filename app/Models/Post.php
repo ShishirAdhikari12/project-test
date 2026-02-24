@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -24,11 +25,25 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function Category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function readTime($wordPerMinute=200)
     {
         $wordCount = str_word_count(strip_tags($this->content));
         $minutes = ceil($wordCount / $wordPerMinute);
 
         return max(1, $minutes);
+    }
+
+    public function imageUrl(){
+        if($this->image){
+            return Storage::url($this->image);
+        }
+        else{
+            return null;
+        }
     }
 }
