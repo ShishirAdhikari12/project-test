@@ -7,21 +7,38 @@
                 <h1 class="text-4xl mb-5 font-bold">{{ $post->title }}</h1>
 
                 <div class="flex gap-2 items-center">
-                    <a href="{{ route('profile.show', $post->user) }}" >
-                    {{-- Avatar --}}
-                    <x-user-avatar :user="$post->user"/>
+                    <a href="{{ route('profile.show', $post->user) }}">
+                        {{-- Avatar --}}
+                        <x-user-avatar :user="$post->user" />
                     </a>
 
                     <div>
                         {{-- Name and follo button  --}}
                         <div class="flex gap-2">
-                            <a href="{{ route('profile.show', $post->user) }}" 
-                            class="font-semibold hover:underline">{{ $post->user->name }}</a>
+                            <a href="{{ route('profile.show', $post->user) }}"
+                                class="font-semibold hover:underline">{{ $post->user->name }}</a>
                             {{-- <span class="text-natural-500"> • </span> --}}
                             &middot;
-                            <a href="#" class="text-green-500">
-                                <span class="text-sm">Follow</span>
-                            </a>
+                            @if (auth()->user() && auth()->user()->id !== $post->user->id)
+                                <div x-data="{
+                                    following: {{ $post->user->isFollowedBy(auth()->user()) ? 'true' : 'false' }},
+                                    follow() {
+                                        this.following = !this.following
+                                        axios.post('/follow/{{ $post->user->id }}')
+                                            .then(res => {
+                                                {{-- console.log('success') --}}
+                                            })
+                                            .catch(err => {
+                                                console.log(err)
+                                            })
+                                    }
+                                }" class="w-fit">
+                                    <button @click="follow()" class="">
+                                        <span x-text="following ? 'Unfollow' : 'Follow'" class="text-sm"
+                                            :class="following ? 'text-neutral-500' : 'text-green-500'">Follow</span>
+                                    </button>
+                                </div>
+                            @endif
                         </div>
                         {{-- Time to read and date  --}}
                         <div class="flex gap-2 text-sm text-neutral-500">
@@ -37,7 +54,7 @@
                 </div>
 
                 {{-- Clap section  --}}
-                <x-clap-button/>
+                <x-clap-button />
 
             </div>
 
@@ -54,11 +71,12 @@
 
                 {{-- Category name  --}}
                 <div class="m-4 mt-8">
-                    <span class="py-3 px-6 bg-neutral-200 hover:bg-neutral-400 text-neutral-900 hover:text-black rounded-full ">{{ $post->category->name}}</span>
+                    <span
+                        class="py-3 px-6 bg-neutral-200 hover:bg-neutral-400 text-neutral-900 hover:text-black rounded-full ">{{ $post->category->name }}</span>
                 </div>
 
                 {{-- Clap section  --}}
-                <x-clap-button/>
+                <x-clap-button />
             </div>
 
         </div>
