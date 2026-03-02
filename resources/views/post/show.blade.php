@@ -23,9 +23,9 @@
                                 <div x-data="{
                                     following: {{ $post->user->isFollowedBy(auth()->user()) ? 'true' : 'false' }},
                                     follow() {
-                                        this.following = !this.following
                                         axios.post('/follow/{{ $post->user->id }}')
-                                            .then(res => {
+                                        .then(res => {
+                                            this.following = !this.following
                                                 {{-- console.log('success') --}}
                                             })
                                             .catch(err => {
@@ -54,7 +54,10 @@
                 </div>
 
                 {{-- Clap section  --}}
-                <x-clap-button />
+                <div class="border-t border-b border-neutral-100 mt-8 p-4 flex items-center gap-1">
+                    <x-clap-button :post="$post" />
+                </div>
+
 
             </div>
 
@@ -76,7 +79,9 @@
                 </div>
 
                 {{-- Clap section  --}}
-                <x-clap-button />
+                <div class="border-t border-b border-neutral-100 mt-8 p-4 flex items-center gap-1">
+                    <x-clap-button :post="$post" />
+                </div>
             </div>
 
         </div>
