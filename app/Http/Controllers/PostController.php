@@ -20,7 +20,7 @@ class PostController extends Controller
     {
         $user = Auth::user();
         $query = Post::latest();
-        if($user){
+        if ($user) {
             $ids = $user->following()->pluck('users.id');
             $query->whereIn('user_id', $ids)->orWhere('user_id', $user->id);
         }
@@ -69,7 +69,7 @@ class PostController extends Controller
     public function show(String $username, Post $post)
     {
         return view('post.show', [
-            'post'=>$post,
+            'post' => $post,
         ]);
     }
 

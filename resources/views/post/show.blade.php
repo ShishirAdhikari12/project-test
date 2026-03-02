@@ -18,14 +18,16 @@
                             <a href="{{ route('profile.show', $post->user) }}"
                                 class="font-semibold hover:underline">{{ $post->user->name }}</a>
                             {{-- <span class="text-natural-500"> • </span> --}}
-                            &middot;
+                            @auth
+                                &middot;
+                            @endauth
                             @if (auth()->user() && auth()->user()->id !== $post->user->id)
                                 <div x-data="{
                                     following: {{ $post->user->isFollowedBy(auth()->user()) ? 'true' : 'false' }},
                                     follow() {
                                         axios.post('/follow/{{ $post->user->id }}')
-                                        .then(res => {
-                                            this.following = !this.following
+                                            .then(res => {
+                                                this.following = !this.following
                                                 {{-- console.log('success') --}}
                                             })
                                             .catch(err => {
@@ -33,10 +35,12 @@
                                             })
                                     }
                                 }" class="w-fit">
-                                    <button @click="follow()" class="">
-                                        <span x-text="following ? 'Unfollow' : 'Follow'" class="text-sm"
-                                            :class="following ? 'text-neutral-500' : 'text-green-500'">Follow</span>
-                                    </button>
+                                    @auth
+                                        <button @click="follow()" class="">
+                                            <span x-text="following ? 'Unfollow' : 'Follow'" class="text-sm"
+                                                :class="following ? 'text-neutral-500' : 'text-green-500'">Follow</span>
+                                        </button>
+                                    @endauth
                                 </div>
                             @endif
                         </div>

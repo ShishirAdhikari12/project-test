@@ -10,15 +10,15 @@
             </div>
 
             <div class="mt-4 text-gray-900">
-                    @forelse ($posts as $post)
+                @forelse ($posts as $post)
                     <x-post-item :post="$post"></x-post-item>
-                    @empty
-                        <div>
-                            <p class="text-gray-500 m-14 text-center">No Posts Found.</p>
-                        </div>
-                    @endforelse
-                    
+                @empty
+                    <div>
+                        <p class="text-gray-500 m-14 text-center">No Posts Found.</p>
                     </div>
+                @endforelse
+
+            </div>
 
             {{ $posts->onEachSide(1)->links() }}
 

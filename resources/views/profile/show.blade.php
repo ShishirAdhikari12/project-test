@@ -28,18 +28,18 @@
 
                     {{-- profile section  --}}
                     <div x-data="{
-
+                    
                         following: {{ $user->isFollowedBy(auth()->user()) ? 'true' : 'false' }},
                         followersCount: {{ $user->followers()->count() }},
                         follow() {
                             axios.post('/follow/{{ $user->id }}')
-                            .then(res => {
-                                this.following = !this.following
-                                this.followersCount = res.data.followersCount
-                            })
-                            .catch(err => {
-                                console.log(err)
-                            })
+                                .then(res => {
+                                    this.following = !this.following
+                                    this.followersCount = res.data.followersCount
+                                })
+                                .catch(err => {
+                                    console.log(err)
+                                })
                         }
                     }"
                         class="sm:w-1/3 sm:border-l border-neutral-200 pl-10 flex flex-col gap-2 order-1 sm:order-2">
@@ -52,11 +52,13 @@
 
                         @if (auth()->user() && auth()->user()->id !== $user->id)
                             <div class="w-fit">
-                                <button @click="follow()" class="py-3 px-6 rounded-full transition-all duration-600"
-                                    x-text="following ? 'Unfollow' : 'Follow'"
-                                    :class="following ? 'bg-white text-black ring-1 ring-black' : 'bg-black text-white'">
+                                @auth
+                                    <button @click="follow()" class="py-3 px-6 rounded-full transition-all duration-600"
+                                        x-text="following ? 'Unfollow' : 'Follow'"
+                                        :class="following ? 'bg-white text-black ring-1 ring-black' : 'bg-black text-white'">
 
-                                </button>
+                                    </button>
+                                @endauth
                             </div>
                         @endif
 

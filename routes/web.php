@@ -7,12 +7,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [PostController::class,'index'])->name('dashboard');
+Route::get('/', [PostController::class, 'index'])->name('dashboard');
 Route::get('/@{username}/{post:slug}', [PostController::class, 'show'])->name('post.show');
 
 Route::get('/@{user:username}', [PublicProfileController::class, "show"])->name('profile.show');
 
-Route::middleware('auth', 'verified')->group(function() {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/category/{category}', [PostController::class, 'category'])->name('post.byCategory');
     // Route::get('/', [PostController::class, 'index'])->name('dashboard');
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
@@ -27,4 +27,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
