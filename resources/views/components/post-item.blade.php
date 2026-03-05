@@ -40,7 +40,7 @@
         </div>
 
         <a href="">
-            <img class="rounded-r-lg w-48 h-full max-h-74 object-cover" src="{{ Storage::url($post->image) }}"
+            <img class="rounded-r-lg w-48 h-full max-h-74 object-cover" src="{{ $post->imageUrl('preview') }}"
                 alt="post image" />
         </a>
     </div>

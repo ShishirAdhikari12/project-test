@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -50,6 +54,21 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('avatar')
+            ->width(128)
+            ->crop(128, 128);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('avatar')
+            ->singleFile();
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -67,11 +86,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function imageUrl()
     {
-        if ($this->image) {
-            return Storage::url($this->image);
-        } else {
-            return null;
-        }
+        return $this->getFirstMedia('avatar')?->getUrl('avatar');
+        // if ($this->image) {
+        //     return Storage::url($this->image);
+        // } else {
+        //     return null;
+        // }
     }
 
     public function isFollowedBy(?User $user)

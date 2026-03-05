@@ -29,7 +29,7 @@
                             <x-slot name="trigger">
                                 <button
                                     class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                    @if (Auth::user()->image)
+                                    @if (Auth::user()->getFirstMedia('avatar'))
                                         <img src="{{ Auth::user()->imageUrl() }}" alt=" "
                                             class="w-8 h-8 mr-2 ml-4 object-cover rounded-full">
                                     @else
@@ -112,8 +112,8 @@
                         <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                         <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                     </div>
-                    @if (Auth::user()->image)
-                        <img src="{{ Auth::user()->imageUrl() }}" alt="image"
+                    @if (Auth::user()->getFirstMedia('avatar'))
+                         <img src="{{ Auth::user()->imageUrl() }}" alt="image"
                             class="w-8 h-8 mr-4 ml-2 object-cover rounded-full">
                     @else
                         <img src="/user-avatar.png" alt="avatar" class="w-8 h-8 mr-4 ml-2 object-cover rounded-full">
