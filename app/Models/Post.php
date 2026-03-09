@@ -63,6 +63,11 @@ class Post extends Model implements HasMedia
         // }
     }
 
+    public function getCreatedAtDate()
+    {
+        return $this->created_at->format('M d, Y');
+    }
+
     public function claps()
     {
         return $this->hasMany(Clap::class);

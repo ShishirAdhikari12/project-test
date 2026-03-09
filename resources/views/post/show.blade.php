@@ -49,7 +49,7 @@
                             <span>{{ $post->readTime() }} mins read</span>
                             {{-- <span class="text-natural-500"> • </span> --}}
                             &middot;
-                            <span>{{ $post->created_at->format('M d, Y') }}</span>
+                            <span>{{ $post->getCreatedAtDate() }}</span>
                             {{-- {{ dd($post->created_at) }} --}}
 
                         </div>

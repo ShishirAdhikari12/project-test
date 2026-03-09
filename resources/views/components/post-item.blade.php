@@ -14,7 +14,7 @@
                     <h5 class="mt-3 mb-2 text-2xl font-semibold tracking-tight text-heading">{{ $post->title }}</h5>
                 </a>
                 <div class="mb-2 text-body">{{ Str::words($post->content, 20) }}</div>
-                <a
+                {{-- <a
                     href="{{ route('post.show', [
                         'username' => $post->user->username,
                         'post' => $post->slug,
@@ -29,17 +29,21 @@
                                 d="M19 12H5m14 0-4 4m4-4-4-4" />
                         </svg>
                     </x-primary-button>
-                </a>
+                </a> --}}
 
             </div>
             <div class="flex gap-2 mt-4 mb-2 text-sm font-light text-neutral-500">
-                <span class="mr-2">{{ $post->created_at->format('M d, Y') }}</span>
+                <span class="mr-2">{{ $post->getCreatedAtDate() }}</span>
                 <x-clap-button :post="$post" />
             </div>
 
         </div>
 
-        <a href="">
+        <a
+            href="{{ route('post.show', [
+                'username' => $post->user->username,
+                'post' => $post->slug,
+            ]) }}">
             <img class="rounded-r-lg w-48 h-full max-h-74 object-cover" src="{{ $post->imageUrl('preview') }}"
                 alt="post image" />
         </a>
