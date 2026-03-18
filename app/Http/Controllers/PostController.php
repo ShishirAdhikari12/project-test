@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 use function Termwind\render;
@@ -18,15 +20,20 @@ class PostController extends Controller
      */
     public function index()
     {
+        // \DB::listen(function ($query) {
+        //     \Log::info($query->sql);
+        // });
+
         $user = Auth::user();
-        $query = Post::latest();
+        $query = Post::with(['user', 'media'])
+            ->withCount('claps')
+            ->latest();
         if ($user) {
             $ids = $user->following()->pluck('users.id');
-            $query->whereIn('user_id', $ids)->orWhere('user_id', $user->id);
+            $query->whereIn('user_id', $ids);
         }
 
-        // $posts = Post::latest()->get();
-        $posts = $query->orderby('created_at', 'DESC')->simplePaginate(10);
+        $posts = $query->simplePaginate(10);
         return view('post.index', [
             'posts' => $posts,
         ]);
@@ -102,7 +109,16 @@ class PostController extends Controller
 
     public function category(Category $category)
     {
-        $posts = $category->posts()->latest()->simplePaginate(10);
+        // \DB::listen(function ($query) {
+        //     \Log::info($query->sql);
+        // });
+
+        $posts = $category->posts()
+            ->with(['user', 'media'])
+            ->withCount('claps')
+            ->latest()
+            ->simplePaginate(10);
+
         return view('post.index', [
             'posts' => $posts,
         ]);

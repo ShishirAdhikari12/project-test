@@ -1,17 +1,22 @@
 @props(['post'])
 <div x-data="{
-    hasClapped: {{ auth()->check() && auth()->user()->hasClapped($post) ? 'true' : 'false' }},
-    count: {{ $post->claps->count() }},
-    clap() {
-        axios.post('/clap/{{ $post->id }}')
-            .then(response => {
-                this.hasClapped = !this.hasClapped
-                this.count = response.data.clapCount;
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
+    {{-- hasClapped: {{ auth()->check() && auth()->user()->hasClapped($post) ? 'true' : 'false' }}, --}}
+    hasClapped: {{ 'false' }},
+        count: {{ $post->claps_count }},
+        clap() {
+            axios.post('/clap/{{ $post->id }}')
+                .then(response => {
+                    if (this.count < response.data.clapCount) {
+                        this.hasClapped = true
+                    } else {
+                        this.hasClapped = false
+                    }
+                    this.count = response.data.clapCount;
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
 }" class="w-fit flex items-center gap-2">
     <button @click="clap()" class="w-4 h-6 text-gray-500 hover:text-black font-thin">
         <template x-if="!hasClapped">
