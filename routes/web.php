@@ -17,7 +17,10 @@ Route::middleware('auth', 'verified')->group(function () {
     // Route::get('/', [PostController::class, 'index'])->name('dashboard');
     Route::get('/my-posts', [PostController::class, 'myPosts'])->name('myposts');
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
+    Route::get('/post/edit/{post:slug}', [PostController::class, 'edit'])->name('post.edit');
     Route::post('/post', [PostController::class, 'store'])->name('post.store');
+    Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
+    Route::delete('/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
     Route::post('/follow/{user}', [FollowerController::class, 'followUnfollow'])->name('follow');
     Route::post('/clap/{post}', [ClapController::class, 'clap'])->name('clap');
 });

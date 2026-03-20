@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostCreateRequest;
+use App\Http\Requests\PostUpdateRequest;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 // use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -60,7 +62,8 @@ class PostController extends Controller
         // $image = $data['image'];
         // unset($data['image']);
         $data['user_id'] = Auth::id();
-        $data['slug'] = Str::slug($data['title']);
+        // $data['slug'] = Str::slug($data['title']);
+
 
         // $imagePath = $image->store('posts', 'public');
         // $data['image'] = $imagePath;
@@ -89,15 +92,44 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        if ($post->user_id !== Auth::id()) {
+            abort(403);
+        }
+        $categories = Category::get();
+        return view('post.edit', [
+            'post' => $post,
+            'categories' => $categories,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostUpdateRequest $request, Post $post)
     {
-        //
+        // dd($post->user_id);
+        if ($post->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $data = $request->validated();
+
+        // $image = $data['image'];
+        // unset($data['image']);
+        // $data['user_id'] = Auth::id();
+        // $data['slug'] = Str::slug($data['title']);
+
+        // $imagePath = $image->store('posts', 'public');
+        // $data['image'] = $imagePath;
+
+        $post->update($data);
+
+        if ($data['image'] ?? false) {
+            $post->addMediaFromRequest('image')
+                ->toMediaCollection();
+        }
+
+        return redirect()->route('myposts');
     }
 
     /**
@@ -105,7 +137,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        if ($post->user_id !== Auth::id()) {
+            abort(403);
+        }
+        $post->delete();
+        return redirect()->route('myposts');
     }
 
     public function category(Category $category)

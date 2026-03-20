@@ -64,11 +64,26 @@
 
 
             </div>
+            @auth
+                @if ($post->user_id === Auth::id())
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-2 mt-2">
+                        <a href="{{ route('post.edit', $post->slug) }}">
+                        <x-primary-button>Edit post</x-primary-button>
+                        </a>
+                        {{-- <x-secondary-button>Draft post</x-secondary-button> --}}
+                        <form action="{{ route('post.destroy', $post) }}" method="POST" class="inline-block">
+                            @csrf
+                            @method('delete')
+                            <x-danger-button>Delete post</x-danger-button>
+                        </form>
+                    </div>
+                @endif
+            @endauth
 
             {{-- Lower Section (content section) --}}
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8 mt-2 ">
                 {{-- image  --}}
-                <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}" class="object-cover w-full max-h-[80vh]">
+                <img src="{{ $post->imageUrl('large') }}" alt="{{ $post->title }}" class="object-cover w-full max-h-[80vh]">
 
                 {{-- content  --}}
                 <div class="mt-4">
@@ -78,7 +93,7 @@
 
                 {{-- Category name  --}}
                 <div class="m-4 mt-8">
-                    <a href="{{route('post.byCategory', $post->category)  }}">
+                    <a href="{{ route('post.byCategory', $post->category) }}">
                         <span
                             class="py-3 px-6 bg-neutral-200 hover:bg-neutral-400 text-neutral-900 hover:text-black rounded-full ">{{ $post->category->name }}</span>
                     </a>
