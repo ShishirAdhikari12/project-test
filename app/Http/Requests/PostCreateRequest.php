@@ -23,7 +23,7 @@ class PostCreateRequest extends FormRequest
     {
         return [
             // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:4096'],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp', 'max:4096'],
             'title' => 'required',
             'content' => 'required',
             'category_id' => ['required', 'exists:categories,id'],

@@ -17,7 +17,7 @@
         @csrf
         @method('patch')
 
-        @if ($user->getFirstMedia('avatar'))
+        @if ($user->imageUrl())
             <div class="flex justify-center">
                 <img src="{{ $user->imageUrl() }}" alt="{{ $user->name }}"
                     class="w-36 h-36 object-cover rounded-full">
