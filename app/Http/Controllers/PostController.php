@@ -28,10 +28,12 @@ class PostController extends Controller
 
         $user = Auth::user();
         $query = Post::with(['user', 'media'])
+            ->where('published_at', '<=', now()->setTimezone(config('app.timezone')))
             ->withCount('claps')
             ->latest();
         if ($user) {
             $ids = $user->following()->pluck('users.id');
+            $ids[] = $user->id;
             $query->whereIn('user_id', $ids);
         }
 
@@ -151,6 +153,7 @@ class PostController extends Controller
         // });
 
         $posts = $category->posts()
+            ->where('published_at', '<=', now()->setTimezone(config('app.timezone')))
             ->with(['user', 'media'])
             ->withCount('claps')
             ->latest()
@@ -175,6 +178,7 @@ class PostController extends Controller
 
         return view('post.index', [
             'posts' => $posts,
+            'heading'=> "My Posts",
         ]);
     }
 }

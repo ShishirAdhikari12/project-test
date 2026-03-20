@@ -44,7 +44,7 @@
                 'username' => $post->user->username,
                 'post' => $post->slug,
             ]) }}">
-            <img class="rounded-r-lg w-48 h-full max-h-74 object-cover" src="{{ $post->imageUrl('preview') }}"
+            <img class="rounded-r-lg w-48 h-full max-h-64 object-cover" src="{{ $post->imageUrl('preview') }}"
                 alt="post image" />
         </a>
     </div>

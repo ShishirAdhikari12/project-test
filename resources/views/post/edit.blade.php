@@ -2,7 +2,7 @@
     <div class="py-4">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <h1 class="text-3xl font-semibold text-blue-900 mb-4">Update Post: <strong
-                    class="text-black font-bold italic">{{ $post->title }}</strong></h1>
+                    class="text-black font-bold italic text-2xl">{{ $post->title }}</strong></h1>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8">
                 <form action="{{ route('post.update', $post->id) }}" enctype="multipart/form-data" method="POST">
                     @csrf
@@ -50,6 +50,14 @@
                         <x-text-area-input id="content" class="block mt-1 w-full" rows="6" name="content"
                             :value="old('content', $post->content)">{{ old('content', $post->content) }}</x-text-area-input>
                         <x-input-error :messages="$errors->get('content')" class="mt-2" />
+                    </div>
+
+                    <!-- Published At -->
+                    <div class="mt-4">
+                        <x-input-label for="published_at" :value="__('Published At')" />
+                        <x-text-input id="published_at" class="block mt-1 w-full" type="datetime-local" name="published_at"
+                            :value="old('published_at', ($post->published_at ? \Carbon\Carbon::parse($post->published_at)->format('Y-m-d\TH:i') : now()->setTimezone(config('app.timezone'))->format('Y-m-d\TH:i')))" />
+                        <x-input-error :messages="$errors->get('published_at')" class="mt-2" />
                     </div>
 
                     <x-primary-button class="mt-4">Update</x-primary-button>

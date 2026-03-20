@@ -8,7 +8,7 @@
                     </x-category-tabs>
                 </div>
             </div>
-
+            <div class="mt-2 text-3xl font-bold ">{{ $heading??'' }}</div>
             <div class="mt-4 text-gray-900">
                 @forelse ($posts as $post)
                     <x-post-item :post="$post"></x-post-item>

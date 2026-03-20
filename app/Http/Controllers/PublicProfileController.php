@@ -10,6 +10,7 @@ class PublicProfileController extends Controller
     public function show(User $user)
     {
         $posts = $user->posts()
+            ->where('published_at', '<=', now()->setTimezone(config('app.timezone')))
             ->with(['user', 'media'])
             ->withCount('claps')
             ->latest()
