@@ -15,6 +15,7 @@ Route::get('/@{user:username}', [PublicProfileController::class, "show"])->name(
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/category/{category}', [PostController::class, 'category'])->name('post.byCategory');
     // Route::get('/', [PostController::class, 'index'])->name('dashboard');
+    Route::get('/my-posts', [PostController::class, 'myPosts'])->name('myposts');
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
     Route::post('/post', [PostController::class, 'store'])->name('post.store');
     Route::post('/follow/{user}', [FollowerController::class, 'followUnfollow'])->name('follow');

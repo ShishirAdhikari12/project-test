@@ -124,4 +124,21 @@ class PostController extends Controller
             'posts' => $posts,
         ]);
     }
+
+    public function myPosts()
+    {
+        // \DB::listen(function ($query) {
+        //     \Log::info($query->sql);
+        // });
+        $user = Auth::user();
+        $posts = $user->posts()
+            ->with(['user', 'media'])
+            ->withCount('claps')
+            ->latest()
+            ->simplePaginate(10);
+
+        return view('post.index', [
+            'posts' => $posts,
+        ]);
+    }
 }
