@@ -78,6 +78,7 @@ class PostController extends Controller
      */
     public function show(String $username, Post $post)
     {
+        $post->claps_count = $post->claps()->count();
         return view('post.show', [
             'post' => $post,
         ]);

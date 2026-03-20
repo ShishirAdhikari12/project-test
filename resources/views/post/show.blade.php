@@ -78,8 +78,10 @@
 
                 {{-- Category name  --}}
                 <div class="m-4 mt-8">
-                    <span
-                        class="py-3 px-6 bg-neutral-200 hover:bg-neutral-400 text-neutral-900 hover:text-black rounded-full ">{{ $post->category->name }}</span>
+                    <a href="{{route('post.byCategory', $post->category)  }}">
+                        <span
+                            class="py-3 px-6 bg-neutral-200 hover:bg-neutral-400 text-neutral-900 hover:text-black rounded-full ">{{ $post->category->name }}</span>
+                    </a>
                 </div>
 
                 {{-- Clap section  --}}
